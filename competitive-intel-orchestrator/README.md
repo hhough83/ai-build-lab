@@ -146,4 +146,4 @@ Built by [Your Name] — Product Leader focused on B2B SaaS and AI/ML platforms.
 
 This project is part of my exploration of AI-assisted product workflows. If you're a PM, strategist, or founder who does competitive analysis regularly, I'd like to hear how it works for your market.
 
-[LinkedIn](https://linkedin.com/in/your-profile) · [Email](mailto:you@email.com)
+[LinkedIn](https://www.linkedin.com/in/hhough/) 
