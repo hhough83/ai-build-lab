@@ -9,7 +9,7 @@ Before beginning research, collect the following from the user. Ask in a single 
 1. **Market/idea description**: What product or service are you building or exploring? What problem does it solve?
 2. **Target customer**: Who buys this? (SMB, mid-market, enterprise, consumer, specific role like "marketing managers at e-commerce companies")
 3. **Known competitors**: List any competitors you're already aware of (even partial names or "that tool my friend mentioned"). Say "none" if starting cold.
-4. **Your differentiator** (if any): What do you believe you'd do differently? This can be vague — "faster," "cheaper," "focused on [niche]" is fine.
+4. **Your differentiator** (if any): What do you believe you'd do differently? This can be vague: "faster," "cheaper," "focused on [niche]" is fine.
 5. **Priority question**: What's the single most important thing you want to learn from this analysis?
 
 If the user provides enough context in their opening message, skip questions you can already answer. Don't re-ask what's obvious.
@@ -36,7 +36,7 @@ Inject the competitor list from Wave 1 into both prompts:
 
 **Output**: Write raw findings in two labeled sections. Flag any competitor where sentiment data is thin (fewer than 10 reviews, no community discussion found).
 
-**Before moving to Wave 3**: Note any emerging patterns — if three competitors all get the same complaint, that's a signal worth highlighting to Wave 3.
+**Before moving to Wave 3**: Note any emerging patterns, if three competitors all get the same complaint, that's a signal worth highlighting to Wave 3.
 
 ### Wave 3 — GTM and strategic signals
 
