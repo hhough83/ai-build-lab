@@ -1,6 +1,6 @@
 # Honesty protocol and data standards
 
-This file defines the rules every agent follows for data quality, confidence tagging, and intellectual honesty. These rules are non-negotiable — they exist because most AI-generated analysis presents everything with equal confidence, which makes the analysis useless for actual decision-making.
+This file defines the rules every agent follows for data quality, confidence tagging, and intellectual honesty. These rules are non-negotiable, they exist because most AI-generated analysis presents everything with equal confidence, which makes the analysis useless for actual decision-making.
 
 ## Confidence tagging
 
