@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PAGE_TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="{{GOOGLE_FONTS_URL}}" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:{{COLOR_BG_DEEP}};
+    --bg-mid:{{COLOR_BG_MID}};
+    --bg-panel:{{COLOR_BG_PANEL}};
+    --paper:{{COLOR_PAPER}};
+    --paper-dim:{{COLOR_PAPER_DIM}};
+    --accent:{{COLOR_ACCENT}};
+    --accent-bright:{{COLOR_ACCENT_BRIGHT}};
+    --ok:{{COLOR_OK}};
+    --warn:{{COLOR_WARN}};
+    --bad:{{COLOR_BAD}};
+    --line: {{COLOR_LINE}};
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at 20% 0%, {{COLOR_GLOW}}, transparent 55%),
+      var(--bg-deep);
+    color:var(--paper);
+    font-family:{{FONT_BODY}}, sans-serif;
+    min-height:100vh;
+    padding:32px 20px 60px;
+  }
+  .motif{
+    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.5;
+  }
+  .wrap{
+    position:relative; z-index:1;
+    max-width:1100px; margin:0 auto;
+  }
+  header{
+    margin-bottom:28px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:22px;
+  }
+  .eyebrow{
+    font-family:{{FONT_MONO}}, monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent-bright);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:{{FONT_DISPLAY}}, serif;
+    font-weight:600;
+    font-size:clamp(28px,4vw,42px);
+    margin:0 0 8px;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    color:var(--paper-dim);
+    font-size:15px;
+    max-width:640px;
+    line-height:1.5;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: 380px 1fr;
+    gap:24px;
+  }
+  @media (max-width: 860px){
+    .grid{grid-template-columns:1fr;}
+  }
+  .panel{
+    background:linear-gradient(180deg, var(--bg-mid), var(--bg-panel));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:24px;
+  }
+  .panel h2{
+    font-family:{{FONT_DISPLAY}}, serif;
+    font-size:19px;
+    font-weight:600;
+    margin:0 0 4px;
+  }
+  .panel .hint{
+    font-size:12.5px;
+    color:var(--paper-dim);
+    margin-bottom:20px;
+  }
+  .field{margin-bottom:22px;}
+  .field:last-child{margin-bottom:0;}
+  .field-label{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:13px; font-weight:600; margin-bottom:8px;
+    color:var(--paper);
+  }
+  .field-label .val{
+    font-family:{{FONT_MONO}}, monospace;
+    color:var(--accent-bright);
+    font-size:14px;
+  }
+  input[type=range]{
+    -webkit-appearance:none; appearance:none;
+    width:100%; height:4px; border-radius:2px;
+    background:var(--bg-panel);
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:18px; height:18px; border-radius:50%;
+    background:var(--accent);
+    border:3px solid var(--bg-deep);
+    cursor:pointer;
+    box-shadow:0 0 0 1px var(--accent);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:18px; height:18px; border-radius:50%;
+    background:var(--accent); border:3px solid var(--bg-deep);
+    cursor:pointer; box-shadow:0 0 0 1px var(--accent);
+  }
+  .range-minmax{
+    display:flex; justify-content:space-between;
+    font-family:{{FONT_MONO}}, monospace;
+    font-size:10.5px; color:var(--paper-dim);
+    margin-top:5px;
+  }
+  .segmented{
+    display:flex; gap:6px; flex-wrap:wrap;
+  }
+  .segmented button{
+    flex:1; min-width:80px;
+    background:var(--bg-deep);
+    border:1px solid var(--line);
+    color:var(--paper-dim);
+    font-family:{{FONT_BODY}}, sans-serif;
+    font-size:12.5px; font-weight:600;
+    padding:9px 8px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:all .15s ease;
+    text-align:center;
+  }
+  .segmented button:hover{border-color:var(--accent);}
+  .segmented button.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:var(--bg-deep);
+  }
+  details{
+    margin-top:20px;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+  }
+  summary{
+    cursor:pointer;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--paper-dim);
+    letter-spacing:0.02em;
+  }
+  summary:hover{color:var(--accent-bright);}
+  details .field{margin-top:18px;}
+  .num-input{
+    width:100%;
+    background:var(--bg-deep);
+    border:1px solid var(--line);
+    color:var(--paper);
+    font-family:{{FONT_MONO}}, monospace;
+    font-size:14px;
+    padding:8px 10px;
+    border-radius:8px;
+    outline:none;
+  }
+  .num-input:focus{border-color:var(--accent);}
+
+  .verdict{
+    border-radius:14px;
+    padding:22px 24px;
+    margin-bottom:20px;
+    border:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; gap:20px;
+    flex-wrap:wrap;
+  }
+  .verdict-left .tag{
+    font-family:{{FONT_MONO}}, monospace;
+    font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .verdict-left .headline{
+    font-family:{{FONT_DISPLAY}}, serif;
+    font-size:24px; font-weight:600;
+  }
+  .verdict-right{
+    text-align:right;
+  }
+  .verdict-right .pct{
+    font-family:{{FONT_MONO}}, monospace;
+    font-size:32px; font-weight:600;
+  }
+  .verdict-right .pct-label{
+    font-size:11.5px; color:var(--paper-dim);
+  }
+  .stat-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-bottom:20px;
+  }
+  @media (max-width:640px){.stat-row{grid-template-columns:1fr;}}
+  .stat{
+    background:var(--bg-mid);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .stat .label{
+    font-size:11.5px; color:var(--paper-dim);
+    text-transform:uppercase; letter-spacing:0.06em;
+    margin-bottom:6px;
+  }
+  .stat .value{
+    font-family:{{FONT_MONO}}, monospace;
+    font-size:22px; font-weight:600; color:var(--accent-bright);
+  }
+  .breakdown{
+    background:var(--bg-mid);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+  }
+  .breakdown h3{
+    font-family:{{FONT_DISPLAY}}, serif;
+    font-size:16px; font-weight:600;
+    margin:0 0 14px;
+  }
+  .row{
+    display:flex; justify-content:space-between;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+  }
+  .row:last-of-type{border-bottom:none;}
+  .row.subtotal{
+    font-weight:600;
+    color:var(--accent-bright);
+  }
+  .row .amt{
+    font-family:{{FONT_MONO}}, monospace;
+  }
+  .group-label{
+    font-family:{{FONT_MONO}}, monospace;
+    font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--paper-dim);
+    margin:16px 0 4px;
+  }
+  .group-label:first-child{margin-top:0;}
+  footer{
+    margin-top:36px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    font-size:12px; color:var(--paper-dim);
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+
+<svg class="motif" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 800">
+  {{MOTIF_SVG}}
+</svg>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">{{EYEBROW_TEXT}}</div>
+    <h1>{{H1_TEXT}}</h1>
+    <div class="sub">{{SUBTITLE_TEXT}}</div>
+  </header>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Your Inputs</h2>
+      <div class="hint">Change these — everything on the right recalculates instantly.</div>
+
+      <div class="field">
+        <div class="field-label"><span>Home Price</span><span class="val" id="priceVal">{{PRICE_DEFAULT_LABEL}}</span></div>
+        <input type="range" id="price" min="{{PRICE_MIN}}" max="{{PRICE_MAX}}" step="{{PRICE_STEP}}" value="{{PRICE_DEFAULT}}">
+        <div class="range-minmax"><span>{{PRICE_MIN_LABEL}}</span><span>{{PRICE_MAX_LABEL}}</span></div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span>Down Payment</span><span class="val" id="downVal">{{DOWN_DEFAULT_LABEL}}</span></div>
+        <input type="range" id="down" min="{{DOWN_MIN}}" max="{{DOWN_MAX}}" step="{{DOWN_STEP}}" value="{{DOWN_DEFAULT}}">
+        <div class="range-minmax"><span>{{DOWN_MIN_LABEL}}</span><span>{{DOWN_MAX_LABEL}}</span></div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span>Annual Property Tax</span><span class="val" id="taxVal">{{TAX_DEFAULT_LABEL}}</span></div>
+        <input type="range" id="tax" min="{{TAX_MIN}}" max="{{TAX_MAX}}" step="{{TAX_STEP}}" value="{{TAX_DEFAULT}}">
+        <div class="range-minmax"><span>{{TAX_MIN_LABEL}}</span><span>{{TAX_MAX_LABEL}}</span></div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span>Home Size</span></div>
+        <div class="segmented" id="sizeTier">
+          {{SIZE_BUTTONS_HTML}}
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span>Gross Annual Income</span><span class="val" id="grossVal">{{GROSS_DEFAULT_LABEL}}</span></div>
+        <input type="range" id="gross" min="{{GROSS_MIN}}" max="{{GROSS_MAX}}" step="1000" value="{{GROSS_DEFAULT}}">
+        <div class="range-minmax"><span>{{GROSS_MIN_LABEL}}</span><span>{{GROSS_MAX_LABEL}}</span></div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span>Avg. Monthly Debt Payments</span><span class="val" id="debtVal">{{DEBT_DEFAULT_LABEL}}</span></div>
+        <input type="range" id="debt" min="0" max="4000" step="25" value="{{DEBT_DEFAULT}}">
+        <div class="range-minmax"><span>$0</span><span>$4,000</span></div>
+        <div class="hint" style="margin:6px 0 0;">Credit cards, auto/student loans, and other debts — not utilities or the mortgage itself.</div>
+      </div>
+
+      <details>
+        <summary>Advanced assumptions</summary>
+        <div class="field">
+          <div class="field-label"><span>Interest Rate</span><span class="val" id="rateVal">{{RATE_DEFAULT}}%</span></div>
+          <input type="range" id="rate" min="4" max="9" step="0.05" value="{{RATE_DEFAULT}}">
+          <div class="range-minmax"><span>4%</span><span>9%</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label"><span>Loan Term</span><span class="val" id="termVal">30 yrs</span></div>
+          <input type="range" id="term" min="10" max="30" step="5" value="30">
+          <div class="range-minmax"><span>10 yr</span><span>30 yr</span></div>
+        </div>
+      </details>
+    </div>
+
+    <div>
+      <div class="verdict" id="verdictBox">
+        <div class="verdict-left">
+          <div class="tag" id="verdictTag">COMFORTABLE</div>
+          <div class="headline" id="verdictHeadline">Recommended middle ground</div>
+        </div>
+        <div class="verdict-right">
+          <div class="pct" id="verdictPct">--%</div>
+          <div class="pct-label">of gross monthly income</div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="label">Total Monthly Cost</div>
+          <div class="value" id="statTotal">--</div>
+        </div>
+        <div class="stat">
+          <div class="label">Back-End DTI</div>
+          <div class="value" id="statDTI">--</div>
+        </div>
+        <div class="stat">
+          <div class="label">Left Over / Month</div>
+          <div class="value" id="statRemaining">--</div>
+        </div>
+      </div>
+
+      <div class="stat-row" style="grid-template-columns:1fr;">
+        <div class="stat">
+          <div class="label">Loan Amount</div>
+          <div class="value" id="statLoan">--</div>
+        </div>
+      </div>
+
+      <div class="breakdown">
+        <h3>Monthly Cost Breakdown</h3>
+
+        <div class="group-label">Housing</div>
+        <div class="row"><span>Mortgage (P&I)</span><span class="amt" id="rowMortgage">--</span></div>
+        <div class="row"><span>Property Tax</span><span class="amt" id="rowTax">--</span></div>
+        <div class="row"><span>Homeowners Insurance</span><span class="amt" id="rowInsurance">--</span></div>
+        <div class="row subtotal"><span>Housing Subtotal</span><span class="amt" id="rowHousingSub">--</span></div>
+
+        <div class="group-label">Utilities</div>
+        <div class="row subtotal"><span>All-in Utilities Estimate</span><span class="amt" id="rowUtilSub">--</span></div>
+      </div>
+
+      <footer>
+        {{FOOTER_NOTE}}
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+  const utilityTotals   = {{UTILITY_TOTALS_JS}};
+  const insuranceTotals = {{INSURANCE_TOTALS_JS}};
+
+
+  const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
+
+  const state = {
+    price: {{PRICE_DEFAULT}},
+    down: {{DOWN_DEFAULT}},
+    taxAnnual: {{TAX_DEFAULT}},
+    sqft: {{SIZE_DEFAULT_SQFT}},
+    rate: {{RATE_DEFAULT}},
+    term: 30,
+    grossAnnual: {{GROSS_DEFAULT}},
+    monthlyDebt: {{DEBT_DEFAULT}}
+  };
+
+  function mortgagePayment(loanAmt, annualRatePct, termYears){
+    const r = (annualRatePct/100)/12;
+    const n = termYears*12;
+    if(r === 0) return loanAmt/n;
+    return loanAmt * (r*Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
+  }
+
+  function recalc(){
+    const loan = Math.max(state.price - state.down, 0);
+    const mortgage = mortgagePayment(loan, state.rate, state.term);
+    const tax = state.taxAnnual / 12;
+    const insurance = insuranceTotals[state.sqft];
+    const housingSub = mortgage + tax + insurance;
+
+    const utilSub = utilityTotals[state.sqft];
+
+    const grossMonthly = state.grossAnnual / 12;
+    const total = housingSub + utilSub + state.monthlyDebt;
+    const pct = (total / grossMonthly) * 100;
+    const remaining = grossMonthly - total;
+
+    // Back-end DTI: the ratio lenders actually check — housing (PITI) + other
+    // debts, over gross income. Utilities are NOT part of a lender's DTI calc,
+    // so this is intentionally different from the headline "% of gross income"
+    // figure above, which includes utilities for a fuller real-world picture.
+    const dti = ((housingSub + state.monthlyDebt) / grossMonthly) * 100;
+
+    document.getElementById('priceVal').textContent = fmt(state.price);
+    document.getElementById('downVal').textContent = fmt(state.down);
+    document.getElementById('taxVal').textContent = fmt(state.taxAnnual);
+    document.getElementById('rateVal').textContent = state.rate.toFixed(2)+'%';
+    document.getElementById('termVal').textContent = state.term+' yrs';
+    document.getElementById('grossVal').textContent = fmt(state.grossAnnual);
+    document.getElementById('debtVal').textContent = fmt(state.monthlyDebt);
+
+    document.getElementById('statTotal').textContent = fmt(total);
+    document.getElementById('statLoan').textContent = fmt(loan);
+    document.getElementById('statRemaining').textContent = fmt(remaining);
+    document.getElementById('statDTI').textContent = dti.toFixed(1)+'%';
+
+    document.getElementById('rowMortgage').textContent = fmt(mortgage);
+    document.getElementById('rowTax').textContent = fmt(tax);
+    document.getElementById('rowInsurance').textContent = fmt(insurance);
+    document.getElementById('rowHousingSub').textContent = fmt(housingSub);
+    document.getElementById('rowUtilSub').textContent = fmt(utilSub);
+
+    document.getElementById('verdictPct').textContent = pct.toFixed(1)+'%';
+
+    const box = document.getElementById('verdictBox');
+    const tag = document.getElementById('verdictTag');
+    const headline = document.getElementById('verdictHeadline');
+    let color, tagText, headlineText;
+    if(pct < 36){
+      color = 'var(--ok)'; tagText = 'VERY CONSERVATIVE'; headlineText = 'Maximum flexibility';
+    } else if(pct < 43){
+      color = 'var(--ok)'; tagText = 'COMFORTABLE'; headlineText = 'Recommended middle ground';
+    } else if(pct < 50){
+      color = 'var(--warn)'; tagText = 'TIGHT BUT DOABLE'; headlineText = 'Requires discipline, thin cushion';
+    } else {
+      color = 'var(--bad)'; tagText = 'HOUSE-POOR'; headlineText = 'Little to no room left over';
+    }
+    box.style.borderColor = color;
+    tag.style.color = color;
+    tag.textContent = tagText;
+    headline.style.color = color;
+    headline.textContent = headlineText;
+  }
+
+  document.getElementById('price').addEventListener('input', e=>{ state.price = +e.target.value; recalc(); });
+  document.getElementById('down').addEventListener('input', e=>{ state.down = +e.target.value; recalc(); });
+  document.getElementById('tax').addEventListener('input', e=>{ state.taxAnnual = +e.target.value; recalc(); });
+  document.getElementById('rate').addEventListener('input', e=>{ state.rate = +e.target.value; recalc(); });
+  document.getElementById('term').addEventListener('input', e=>{ state.term = +e.target.value; recalc(); });
+  document.getElementById('gross').addEventListener('input', e=>{ state.grossAnnual = +e.target.value; recalc(); });
+  document.getElementById('debt').addEventListener('input', e=>{ state.monthlyDebt = +e.target.value; recalc(); });
+
+  document.querySelectorAll('#sizeTier button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#sizeTier button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      state.sqft = +btn.dataset.sqft;
+      recalc();
+    });
+  });
+
+  recalc();
+</script>
+</body>
+</html>
