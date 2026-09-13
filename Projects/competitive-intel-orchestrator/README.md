@@ -1,6 +1,6 @@
 # Competitive Intelligence Orchestrator
 
-A structured prompt system for [Claude Projects](https://claude.ai) that turns a market description into actionable competitive intelligence — not surface-level summaries.
+A structured prompt system for [Claude Projects](https://claude.ai) that turns a market description into actionable competitive intelligencee, not surface-level summaries.
 
 You describe a market. The system runs three sequential research waves (competitor profiling → customer sentiment mining → strategic signal detection), cross-references findings across waves, and produces four deliverables: an executive report, feature matrix, pricing landscape, and per-competitor battle cards.
 
@@ -8,25 +8,25 @@ You describe a market. The system runs three sequential research waves (competit
 
 ## Why I built this
 
-I'm a product leader at a large healthcare tech company. Every time I needed competitive intelligence — for roadmap planning, positioning, or stakeholder conversations — I'd either get a 50-slide deck full of logos and obvious observations, or I'd spend a week doing it myself.
+I'm a product leader at a large healthcare tech company. Every time I needed competitive intelligence (for roadmap planning, positioning, or stakeholder conversations) I'd either get a 50-slide deck full of logos and obvious observations, or I'd spend a week doing it myself.
 
-The problem with most competitive analysis isn't the research. It's the synthesis. Individual facts about competitors are easy to find. What's hard is connecting a pricing complaint in a G2 review to a funding announcement to a hiring pattern and recognizing that a competitor is about to reprice — before they announce it.
+The problem with most competitive analysis isn't the research. It's the synthesis. Individual facts about competitors are easy to find. What's hard is connecting a pricing complaint in a G2 review to a funding announcement to a hiring pattern and recognizing that a competitor is about to reprice before they announce it.
 
 That cross-referencing is what this system is designed to do.
 
 ### Design decisions
 
-**Three waves, not one big prompt.** Each wave builds on the last. Wave 1 maps the landscape. Wave 2 mines customer sentiment using the competitor list Wave 1 produced. Wave 3 reads strategic signals informed by patterns Wave 2 surfaced. A single prompt can't do this — it would either lose context or skip the cross-referencing that produces the best insights.
+**Three waves, not one big prompt.** Each wave builds on the last. Wave 1 maps the landscape. Wave 2 mines customer sentiment using the competitor list Wave 1 produced. Wave 3 reads strategic signals informed by patterns Wave 2 surfaced. A single prompt can't do this, it would either lose context or skip the cross-referencing that produces the best insights.
 
-**Two parallel threads per wave.** Within each wave, two research threads run simultaneously — one quantitative, one qualitative. Wave 1 pairs competitor profiles with pricing intelligence. Wave 2 pairs structured review mining with unfiltered community discussion. Wave 3 pairs go-to-market analysis with strategic signal detection. Each thread has a dedicated prompt with specific instructions, sources, and output formats.
+**Two parallel threads per wave.** Within each wave, two research threads run simultaneously: one quantitative, one qualitative. Wave 1 pairs competitor profiles with pricing intelligence. Wave 2 pairs structured review mining with unfiltered community discussion. Wave 3 pairs go-to-market analysis with strategic signal detection. Each thread has a dedicated prompt with specific instructions, sources, and output formats.
 
-**An honesty protocol, not a style guide.** The `config.md` file defines three confidence tags — `[Data]`, `[Estimate]`, and `[Assumption]` — and requires every factual claim to carry one. It also defines rules for data gaps, source hierarchy, and intellectual honesty (like distinguishing between "no one does this" and "the market rejected this"). This exists because AI-generated analysis tends to present everything with equal confidence, which makes it useless for actual decisions.
+**An honesty protocol, not a style guide.** The `config.md` file defines three confidence tags, `[Data]`, `[Estimate]`, and `[Assumption]`, and requires every factual claim to carry one. It also defines rules for data gaps, source hierarchy, and intellectual honesty (like distinguishing between "no one does this" and "the market rejected this"). This exists because AI-generated analysis tends to present everything with equal confidence, which makes it useless for actual decisions.
 
 **Four distinct deliverables, not one report.** Different stakeholders need different views of the same intelligence. The executive report sets strategic context. The feature matrix shows where competitors are strong or weak across specific capabilities. The pricing map reveals value-metric patterns and pricing whitespace. The battle cards give per-competitor tactical guidance. Each template enforces a structure that prevents the common failure mode of "interesting observations with no clear implication."
 
 ### What I learned building it
 
-Prompt architecture is product architecture. The same skills that make a good product spec — clear scope, explicit dependencies, structured outputs, defined quality standards — make good prompt systems. The orchestrator is essentially a product requirements doc for an AI research workflow, and the wave prompts are feature specs.
+Prompt architecture is product architecture. The same skills that make a good product spec (clear scope, explicit dependencies, structured outputs, defined quality standards) make good prompt systems. The orchestrator is essentially a product requirements doc for an AI research workflow, and the wave prompts are feature specs.
 
 The hardest part wasn't getting Claude to research. It was getting it to be honest about what it didn't find. The honesty protocol exists because early versions would fill data gaps with plausible-sounding filler that read great and was completely unverifiable. The `DATA GAP` format forces explicit acknowledgment of missing information, which turned out to be one of the most valuable parts of the output.
 
@@ -64,7 +64,7 @@ After each deliverable, you can ask follow-up questions, request deeper analysis
 
 - **Time**: A full run takes 20-40 minutes depending on market complexity and how many competitors surface.
 - **Quality**: Strongest for markets with established competitors that have public pricing, review presence, and visible hiring/funding activity. Thinner for very early-stage or niche markets where public data is scarce.
-- **Honesty**: The system will tell you when data is thin, when a claim is an estimate vs. verified, and when a gap exists. This is by design — an analysis that says "DATA GAP" is more useful than one that guesses.
+- **Honesty**: The system will tell you when data is thin, when a claim is an estimate vs. verified, and when a gap exists. This is by design an analysis that says "DATA GAP" is more useful than one that guesses.
 
 ### Customization
 
@@ -81,7 +81,7 @@ You can modify the system for your needs:
 
 ```
 prompts/
-├── orchestrator.md                # System prompt — controls the full workflow
+├── orchestrator.md                # System prompt, controls the full workflow
 ├── config.md                      # Honesty protocol, confidence tags, data standards
 │
 ├── wave1-competitor-profiles.md   # Wave 1A: Company + product + traction profiles
