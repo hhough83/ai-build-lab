@@ -1,6 +1,28 @@
+Commons Clause License Condition v1.0
+
+The Software is provided under the MIT License below, subject to the
+following condition.
+
+Without limiting other conditions in the MIT License, the grant of rights
+under the MIT License is conditioned upon not sub-licensing the sale of the
+Software. "Sell" means practicing any or all of the rights granted under
+this license to provide the Software, or a product or service whose value
+derives, entirely or substantially, from the functionality of the Software,
+to third parties for a fee or other consideration, including without
+limitation as part of a paid product or service offering.
+
+For purposes of the foregoing, "sold" also includes offering the Software as
+part of a hosted or managed service to third parties for a fee.
+
+Software: home-affordability-calculator
+License: MIT License (see below)
+Licensor: Heather A Hough
+
+---
+
 MIT License
 
-Copyright (c) 2026 <Your Name>
+Copyright (c) 2026 Heather A Hough
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +41,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Note: the "and/or sell" language in the MIT License above is overridden by
+the Commons Clause condition at the top of this file. Where the two
+conflict, the Commons Clause condition controls: the Software may not be
+sold.
